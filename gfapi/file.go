@@ -31,6 +31,7 @@ package gfapi
 // #include <sys/stat.h>
 import "C"
 import (
+	"log"
 	"os"
 	"syscall"
 )
@@ -39,7 +40,8 @@ import (
 type File struct {
 	name string
 	Fd
-	isDir bool
+	isDir  bool
+	Volume *Volume
 }
 
 // Close closes an open File.

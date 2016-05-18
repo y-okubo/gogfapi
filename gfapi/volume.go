@@ -183,7 +183,7 @@ func (v *Volume) Create(name string) (*File, error) {
 		return nil, &os.PathError{"create", name, err}
 	}
 
-	return &File{name, Fd{cfd}, false}, nil
+	return &File{name, Fd{cfd}, false, v}, nil
 }
 
 // Removes existing an file
@@ -324,7 +324,7 @@ func (v *Volume) Open(name string) (*File, error) {
 		return nil, &os.PathError{"open", name, err}
 	}
 
-	return &File{name, Fd{cfd}, isDir}, nil
+	return &File{name, Fd{cfd}, isDir, v}, nil
 }
 
 // OpenFile opens the named file on the the Volume v.
@@ -363,7 +363,7 @@ func (v *Volume) OpenFile(name string, flags int, perm os.FileMode) (*File, erro
 		return nil, &os.PathError{"open", name, err}
 	}
 
-	return &File{name, Fd{cfd}, isDir}, nil
+	return &File{name, Fd{cfd}, isDir, v}, nil
 }
 
 // Stat returns an os.FileInfo object describing the named file
