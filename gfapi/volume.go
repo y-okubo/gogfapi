@@ -66,7 +66,7 @@ func (v *Volume) Init(host string, volname string) int {
 
 	v.fs = C.glfs_new(cvolname)
 
-	ret := C.glfs_set_volfile_server(v.fs, ctrans, chost, 24007)
+	ret := C.glfs_set_volfile_server(v.fs, ctrans, chost, 0)
 
 	return int(ret)
 }
