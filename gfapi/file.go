@@ -103,7 +103,27 @@ func (f *File) ReadAt(b []byte, off int64) (int, error) {
 
 // Readdir has not been implemented yet
 func (f *File) Readdir(n int) ([]os.FileInfo, error) {
-	return nil, nil
+	var err error = nil
+	var dirEnt *C.struct_dirent
+	var dirInfo = make([]os.FileInfo, 0)
+
+	for {
+		dirEnt, err = C.glfs_readdir(f.Fd.fd)
+		if err != nil {
+			log.Fatalf("Error: %v", err)
+			break
+		} else if dirEnt == nil {
+			// End of seek
+			break
+		} else {
+			info, err := f.Volume.Lstat(f.name + "/" + C.GoString(&dirEnt.d_name[0]))
+			if err == nil {
+				dirInfo = append(dirInfo, info)
+			}
+		}
+	}
+
+	return dirInfo, nil
 }
 
 // Readdirnames has not been implemented yet
