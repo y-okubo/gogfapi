@@ -26,7 +26,7 @@ func main() {
 
 	err = vol.Mkdir("/TestRmdir", 0755)
 	if err != nil {
-		log.Fatalf("Failed to create file. Error = %v", err)
+		log.Printf("Failed to create file. Error = %v", err)
 	}
 
 	ffd, err := vol.Open("/TestRmdir")
@@ -34,7 +34,15 @@ func main() {
 		log.Fatal("Failed to open file")
 	}
 
-	ffd.Readdir(4)
+	entries, err := ffd.Readdir(100)
+	if err != nil {
+		log.Fatal("Failed to read directory")
+	}
+
+	for _, entry := range entries {
+		log.Printf("%s\t%d\t%s\t%s", entry.Name(), entry.Size(), entry.IsDir(), entry.ModTime())
+		log.Print(entry.Sys())
+	}
 
 	// log.Println(f)
 }
