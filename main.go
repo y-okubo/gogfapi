@@ -29,12 +29,12 @@ func main() {
 		log.Printf("Failed to create file. Error = %v", err)
 	}
 
-	ffd, err := vol.Open("/TestRmdir")
+	file, err := vol.Open("/TestRmdir")
 	if err != nil {
 		log.Fatal("Failed to open file")
 	}
 
-	entries, err := ffd.Readdir(100)
+	entries, err := file.Readdir(100)
 	if err != nil {
 		log.Fatal("Failed to read directory")
 	}
